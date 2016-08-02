@@ -1,0 +1,58 @@
+
+
+●bean中id和name的区别
+ id必须符合xml规范，不能为特殊字符。在xml文件中唯一，每个bean的id只能有一个。
+ name可以包含特殊字符。在每个bean的name可以有多个，按照如下格式：<bean name="name1,name2" class="xxx.xxxxx"/>。
+ 当其他bean需要引用某一个bean的时候，只能使用id。name只是一个别名（alias）。
+ 
+●spring框架初始化的时，可以最好使用项目路径，而不是绝对路径，因为在不同的系统下，文件系统的格式是不一样的。
+	项目路径的方式：BeanFactory factory = new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml"});
+	
+●使用工厂获取bean的实例的2种方法
+	方法一：工厂类中的获取实例方法为静态方法。
+	工厂方法代码：
+	packag com.wzd;
+	
+	public class BeanTestFactory{
+		public static BeanTest getBeanTestInstance(){
+			return new BeanTest();
+		}
+	}
+	spring配置文件：
+	<bean id="bean_id" class="com.wzd.BeanTestFactory" factory-method="getBeanTestInstance"/>
+	
+	方法二：工厂类中的获取实例方法为非静态方法。
+	packag com.wzd;
+	
+	public class BeanTestFactory{
+		public BeanTest getBeanTestInstance(){
+			return new BeanTest();
+		}
+	}
+	spring配置文件：
+	<bean id="beanFactory_id" class="com.wzd.BeanTestFactory"/>			<!-- 工厂类的bean -->
+	<bean id="bean_id" factory-bean="beanFactory_id" factory-method="getBeanTestInstance"/>		<!-- 使用工厂类的bean来创建实际对象的bean -->
+
+●spring中如何设置是否使用单例模式
+	在bean中设置scope属性可以设置是否使用单例模式，scope属性有四种可选值：prototype、singleton、request、session。
+	其中request、session在web开发中才会用到。
+	prototype -原型，表示每次获取某个类的对象bean都会创建一个新的对象。
+	singleton -单例，表示每次获取某个类的对象bean都是同一个，整个容器中该类型的bean只有一个。
+	spring中默认是使用单例模式，即singleton。
+	
+	例：<bean id="daoImpl" class="wdz.pkg.daoImpl.DAOImpl" scope=""></bean>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
