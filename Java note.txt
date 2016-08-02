@@ -42,7 +42,11 @@
 	
 	例：<bean id="daoImpl" class="wdz.pkg.daoImpl.DAOImpl" scope=""></bean>
 
-
+●bean什么时候被实例化？
+	测试方法：在bean的构造方法中添加打印信息，通过debug单步调试查看。
+	1.bean为singleton模式，在容器实例化时bean被实例化。
+	2.bean为prototype模式，在每次需要获取新的bean对象时。
+	
 
 
 
